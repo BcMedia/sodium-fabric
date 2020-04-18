@@ -3,6 +3,7 @@ package me.jellysquid.mods.sodium.client.gui.options.control;
 import me.jellysquid.mods.sodium.client.gui.options.Option;
 import me.jellysquid.mods.sodium.client.gui.widgets.AbstractWidget;
 import net.minecraft.client.util.Rect2i;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Formatting;
 
 public class ControlElement<T> extends AbstractWidget {
@@ -22,7 +23,7 @@ public class ControlElement<T> extends AbstractWidget {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float delta) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         String name = this.option.getName();
         String label;
 
@@ -39,7 +40,7 @@ public class ControlElement<T> extends AbstractWidget {
         this.hovered = this.dim.contains(mouseX, mouseY);
 
         this.drawRect(this.dim.getX(), this.dim.getY(), this.dim.getX() + this.dim.getWidth(), this.dim.getY() + this.dim.getHeight(), this.hovered ? 0xE0000000 : 0x90000000);
-        this.drawString(label, this.dim.getX() + 6, this.dim.getY() + (this.dim.getHeight() / 2) - 4, 0xFFFFFFFF);
+        this.drawString(matrixStack, label, this.dim.getX() + 6, this.dim.getY() + (this.dim.getHeight() / 2) - 4, 0xFFFFFFFF);
     }
 
     public Option<T> getOption() {

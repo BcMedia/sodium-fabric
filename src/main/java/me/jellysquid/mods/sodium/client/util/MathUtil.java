@@ -7,4 +7,11 @@ public class MathUtil {
     public static boolean isPowerOfTwo(int n) {
         return ((n & (n - 1)) == 0);
     }
+
+    /**
+     * @return num rounded up to the nearest multiple of interval
+     */
+    public static int roundUp(int num, int interval) {
+        return ((num + (interval - 1)) / interval) * interval;
+    }
 }

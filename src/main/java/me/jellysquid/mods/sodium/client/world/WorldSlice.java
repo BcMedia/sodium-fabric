@@ -2,6 +2,7 @@ package me.jellysquid.mods.sodium.client.world;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.ChunkBuilder;
+import me.jellysquid.mods.sodium.client.util.MathUtil;
 import me.jellysquid.mods.sodium.client.world.biome.BiomeCache;
 import me.jellysquid.mods.sodium.client.world.biome.BiomeCacheManager;
 import me.jellysquid.mods.sodium.client.world.biome.BiomeColorBlendCache;
@@ -12,7 +13,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
@@ -45,7 +45,7 @@ public class WorldSlice extends ReusableObject implements BlockRenderView, Biome
     public static final int NEIGHBOR_BLOCK_RADIUS = 1;
 
     // The number of outward chunks from the origin chunk to slice
-    public static final int NEIGHBOR_CHUNK_RADIUS = MathHelper.roundUp(NEIGHBOR_BLOCK_RADIUS, 16) >> 4;
+    public static final int NEIGHBOR_CHUNK_RADIUS = MathUtil.roundUp(NEIGHBOR_BLOCK_RADIUS, 16) >> 4;
 
     // The length of the chunk section array on each axis
     public static final int SECTION_LENGTH = 1 + (NEIGHBOR_CHUNK_RADIUS * 2);

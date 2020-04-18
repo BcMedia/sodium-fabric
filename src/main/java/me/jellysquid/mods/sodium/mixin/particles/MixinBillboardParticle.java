@@ -9,7 +9,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,7 +31,7 @@ public abstract class MixinBillboardParticle extends Particle {
     @Shadow
     protected abstract float getMaxV();
 
-    protected MixinBillboardParticle(World world, double x, double y, double z) {
+    protected MixinBillboardParticle(ClientWorld world, double x, double y, double z) {
         super(world, x, y, z);
     }
 

@@ -1,5 +1,6 @@
 package me.jellysquid.mods.sodium.client.gui;
 
+import com.google.common.collect.Lists;
 import me.jellysquid.mods.sodium.client.gui.options.*;
 import me.jellysquid.mods.sodium.client.gui.options.control.Control;
 import me.jellysquid.mods.sodium.client.gui.options.control.ControlElement;
@@ -11,6 +12,9 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.VideoOptionsScreen;
 import net.minecraft.client.util.Rect2i;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.Validate;
@@ -101,7 +105,7 @@ public class SodiumOptionsGUI extends Screen {
         int y = 6;
 
         for (OptionPage page : this.pages) {
-            int width = 10 + this.textRenderer.getStringWidth(page.getName());
+            int width = 10 + this.textRenderer.getWidth(page.getName());
 
             FlatButtonWidget button = new FlatButtonWidget(new Rect2i(x, y, width, 16), page.getName(), () -> this.setPage(page));
             button.setSelected(this.currentPage == page);
@@ -134,17 +138,17 @@ public class SodiumOptionsGUI extends Screen {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float delta) {
-        super.renderBackground();
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
+        super.renderBackground(matrixStack);
 
-        this.update(mouseX, mouseY, delta);
+        this.update(matrixStack, mouseX, mouseY, delta);
 
         for (Drawable drawable : this.drawable) {
-            drawable.render(mouseX, mouseY, delta);
+            drawable.render(matrixStack, mouseX, mouseY, delta);
         }
     }
 
-    private void update(int mouseX, int mouseY, float delta) {
+    private void update(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         ControlElement<?> hovered = null;
         boolean hasChanges = false;
 
@@ -163,12 +167,12 @@ public class SodiumOptionsGUI extends Screen {
         this.closeButton.setEnabled(!hasChanges);
 
         if (hovered != null) {
-            this.renderOptionTooltip(hovered, mouseX, mouseY, delta);
+            this.renderOptionTooltip(matrixStack, hovered, mouseX, mouseY, delta);
         }
     }
 
     @SuppressWarnings("SuspiciousNameCombination")
-    private void renderOptionTooltip(ControlElement<?> element, int mouseX, int mouseY, float delta) {
+    private void renderOptionTooltip(MatrixStack matrixStack, ControlElement<?> element, int mouseX, int mouseY, float delta) {
         Rect2i dim = element.getDimensions();
 
 
@@ -180,27 +184,27 @@ public class SodiumOptionsGUI extends Screen {
         int boxWidth = Math.min(this.width - (dim.getX() + dim.getWidth() + (boxPadding * 2)), 280);
 
         Option<?> option = element.getOption();
-        List<String> tooltip = new ArrayList<>(this.textRenderer.wrapStringToWidthAsList(option.getTooltip(), boxWidth - (textPadding * 2)));
+        List<Text> tooltip = Lists.newArrayList(this.textRenderer.wrapLines(new LiteralText(option.getTooltip()), boxWidth - (textPadding * 2)));
 
         OptionImpact impact = option.getImpact();
 
         if (impact != null) {
-            tooltip.add("");
-            tooltip.add(Formatting.GRAY + "Performance Impact: " + impact.toDisplayString());
+            tooltip.add(new LiteralText(""));
+            tooltip.add(new LiteralText(Formatting.GRAY + "Performance Impact: " + impact.toDisplayString()));
         }
 
         int boxHeight = (tooltip.size() * 12) + boxPadding;
 
-        this.fillGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight, 0xE0000000, 0xE0000000);
+        this.fillGradient(matrixStack, boxX, boxY, boxX + boxWidth, boxY + boxHeight, 0xE0000000, 0xE0000000);
 
         for (int i = 0; i < tooltip.size(); i++) {
-            String str = tooltip.get(i);
+            Text text = tooltip.get(i);
 
-            if (str.isEmpty()) {
+            if (text.asString().isEmpty()) {
                 continue;
             }
 
-            this.textRenderer.draw(str, boxX + textPadding, boxY + textPadding + (i * 12), 0xFFFFFFFF);
+            this.textRenderer.draw(matrixStack, text.asString(), boxX + textPadding, boxY + textPadding + (i * 12), 0xFFFFFFFF);
         }
     }
 

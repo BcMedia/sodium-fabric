@@ -16,7 +16,7 @@ import java.util.*;
  * block entities contained by it, and any data used for occlusion testing.
  */
 public class ChunkRenderData {
-    public static final ChunkRenderData ABSENT = new ChunkRenderData.Builder()
+    public static final ChunkRenderData ABSENT = new Builder()
             .build();
     public static final ChunkRenderData EMPTY = createEmptyData();
 
@@ -159,7 +159,7 @@ public class ChunkRenderData {
         ChunkOcclusionData occlusionData = new ChunkOcclusionData();
         occlusionData.addOpenEdgeFaces(EnumSet.allOf(Direction.class));
 
-        ChunkRenderData.Builder meshInfo = new ChunkRenderData.Builder();
+        Builder meshInfo = new Builder();
         meshInfo.setOcclusionData(occlusionData);
 
         return meshInfo.build();
