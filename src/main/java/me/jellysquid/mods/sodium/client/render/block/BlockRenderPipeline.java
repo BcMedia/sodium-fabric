@@ -60,7 +60,7 @@ public class BlockRenderPipeline {
         LightPipeline lighter = this.getLightPipeline(state, model);
         lighter.reset();
 
-        Vec3d offset = state.getOffsetPos(world, pos);
+        Vec3d offset = state.getModelOffset(world, pos);
 
         boolean rendered = false;
 
@@ -104,6 +104,12 @@ public class BlockRenderPipeline {
 
             if (quad.hasColor() && colorizer == null) {
                 colorizer = this.blockColors.getColorProvider(state);
+            }
+
+            float brightness = world.getBrightness(quad.getFace(), quad.hasShade());
+
+            for (int i = 0; i < light.br.length; ++i) {
+                light.br[i] *= brightness;
             }
 
             this.renderQuad(world, state, pos, builder, offset, colorizer, quad, light, facing);

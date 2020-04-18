@@ -72,10 +72,10 @@ public abstract class MixinBillboardParticle extends Particle {
     protected Quaternion rotateCamera(Quaternion rotation, float tickDelta) {
         float angle = MathHelper.lerp(tickDelta, this.prevAngle, this.angle);
 
-        float rx = rotation.getB();
-        float ry = rotation.getC();
-        float rz = rotation.getD();
-        float rw = rotation.getA();
+        float rx = rotation.getX();
+        float ry = rotation.getY();
+        float rz = rotation.getZ();
+        float rw = rotation.getW();
 
         float r0 = angle / 2.0F;
         float r1 = MathHelper.sin(r0);
@@ -90,10 +90,10 @@ public abstract class MixinBillboardParticle extends Particle {
     }
 
     private void addVertex(VertexConsumer vertices, float x, float y, float u, float v, int color, int brightness, Quaternion rotation, float scale, float offsetX, float offsetY, float offsetZ) {
-        float rx = rotation.getB();
-        float ry = rotation.getC();
-        float rz = rotation.getD();
-        float rw = rotation.getA();
+        float rx = rotation.getX();
+        float ry = rotation.getY();
+        float rz = rotation.getZ();
+        float rw = rotation.getW();
 
         // Quaternion.hamiltonProduct(x, y, 1.0F, 0.0F)
         float qx = rw * x + ry - rz * y;

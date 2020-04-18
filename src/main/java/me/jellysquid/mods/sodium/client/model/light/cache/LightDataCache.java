@@ -73,7 +73,7 @@ public abstract class LightDataCache {
         // FIX: Fluids are always non-translucent despite blocking light, so we need a special check here in order to
         // solve lighting issues underwater.
         boolean op = state.getFluidState() != EMPTY_FLUID_STATE || state.getOpacity(world, pos) == 0;
-        boolean fo = state.isFullOpaque(world, pos);
+        boolean fo = state.isOpaqueFullCube(world, pos);
 
         // OPTIMIZE: Do not calculate lightmap data if the block is full and opaque
         int lm = fo ? 0 : WorldRenderer.getLightmapCoordinates(world, state, pos);

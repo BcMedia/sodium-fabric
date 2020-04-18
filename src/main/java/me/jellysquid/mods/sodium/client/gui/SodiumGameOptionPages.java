@@ -13,8 +13,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.AttackIndicator;
 import net.minecraft.client.options.Option;
 import net.minecraft.client.options.ParticlesOption;
-import net.minecraft.client.util.TextFormat;
 import net.minecraft.client.util.Window;
+import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,7 +203,7 @@ public class SodiumGameOptionPages {
                         .setTooltip("Modern versions of OpenGL provide features which can be used to greatly reduce driver overhead when rendering chunks. " +
                                 "You should use the latest supported feature set for optimal performance. If you're experiencing chunk rendering issues or driver crashes, try " +
                                 "using the older (and possibly more stable) feature sets." +
-                                "\n\n" + TextFormat.GRAY + "Your graphics card has support for up to the " + SodiumGameOptions.ChunkRendererBackendOption.BEST.getLocalizedName() + " feature set." + TextFormat.WHITE)
+                                "\n\n" + Formatting.GRAY + "Your graphics card has support for up to the " + SodiumGameOptions.ChunkRendererBackendOption.BEST.getLocalizedName() + " feature set." + Formatting.WHITE)
                         .setControl((opt) -> new CyclingControl<>(opt, SodiumGameOptions.ChunkRendererBackendOption.class,
                                 SodiumGameOptions.ChunkRendererBackendOption.getAvailableOptions()))
                         .setBinding((opts, value) -> opts.performance.chunkRendererBackend = value, opts -> opts.performance.chunkRendererBackend)

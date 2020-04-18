@@ -11,6 +11,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.LightType;
@@ -242,6 +243,11 @@ public class WorldSlice extends ReusableObject implements BlockRenderView, Biome
 
     public FluidState getFluidState(int x, int y, int z) {
         return this.getBlockState(x, y, z).getFluidState();
+    }
+
+    @Override
+    public float getBrightness(Direction direction, boolean shaded) {
+        return world.getBrightness(direction, shaded);
     }
 
     @Override

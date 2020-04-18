@@ -11,8 +11,8 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.VideoOptionsScreen;
 import net.minecraft.client.util.Rect2i;
-import net.minecraft.client.util.TextFormat;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.Validate;
 import org.lwjgl.glfw.GLFW;
 
@@ -101,7 +101,7 @@ public class SodiumOptionsGUI extends Screen {
         int y = 6;
 
         for (OptionPage page : this.pages) {
-            int width = 10 + this.font.getStringWidth(page.getName());
+            int width = 10 + this.textRenderer.getStringWidth(page.getName());
 
             FlatButtonWidget button = new FlatButtonWidget(new Rect2i(x, y, width, 16), page.getName(), () -> this.setPage(page));
             button.setSelected(this.currentPage == page);
@@ -180,13 +180,13 @@ public class SodiumOptionsGUI extends Screen {
         int boxWidth = Math.min(this.width - (dim.getX() + dim.getWidth() + (boxPadding * 2)), 280);
 
         Option<?> option = element.getOption();
-        List<String> tooltip = new ArrayList<>(this.font.wrapStringToWidthAsList(option.getTooltip(), boxWidth - (textPadding * 2)));
+        List<String> tooltip = new ArrayList<>(this.textRenderer.wrapStringToWidthAsList(option.getTooltip(), boxWidth - (textPadding * 2)));
 
         OptionImpact impact = option.getImpact();
 
         if (impact != null) {
             tooltip.add("");
-            tooltip.add(TextFormat.GRAY + "Performance Impact: " + impact.toDisplayString());
+            tooltip.add(Formatting.GRAY + "Performance Impact: " + impact.toDisplayString());
         }
 
         int boxHeight = (tooltip.size() * 12) + boxPadding;
@@ -200,7 +200,7 @@ public class SodiumOptionsGUI extends Screen {
                 continue;
             }
 
-            this.font.draw(str, boxX + textPadding, boxY + textPadding + (i * 12), 0xFFFFFFFF);
+            this.textRenderer.draw(str, boxX + textPadding, boxY + textPadding + (i * 12), 0xFFFFFFFF);
         }
     }
 
