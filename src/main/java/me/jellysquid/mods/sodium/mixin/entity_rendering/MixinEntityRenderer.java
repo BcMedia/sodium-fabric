@@ -20,7 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EntityRenderer.class)
 public abstract class MixinEntityRenderer<T extends Entity> {
     @Shadow
-    protected abstract int getBlockLight(T entity, float tickDelta);
+    protected abstract int method_27950(T entity, BlockPos blockPos);
+
+    @Shadow
+    protected abstract int getBlockLight(T entity, BlockPos blockPos);
 
     private static final int POISON_VALUE = 0xDEADBEEF;
 
@@ -31,7 +34,7 @@ public abstract class MixinEntityRenderer<T extends Entity> {
      * @author JellySquid
      */
     @Inject(method = "getBlockLight", at = @At("HEAD"), cancellable = true)
-    public void getBlockLight(T entity, float tickDelta, CallbackInfoReturnable<Integer> cir) {
+    public void getBlockLight(T entity, BlockPos blockPos, CallbackInfoReturnable<Integer> cir) {
         if (this.isAdvancedLightEnabled) {
             cir.setReturnValue(POISON_VALUE);
         }
@@ -43,22 +46,23 @@ public abstract class MixinEntityRenderer<T extends Entity> {
      */
     @Overwrite
     public final int getLight(T entity, float tickDelta) {
-        int blockLight = this.getBlockLightWrapper(entity, tickDelta);
+        BlockPos blockPos = new BlockPos(entity.getCameraPosVec(tickDelta));
+        int blockLight = this.getBlockLightWrapper(entity, blockPos);
 
         if (blockLight == 0xDEADBEEF) {
             return EntityLighter.getBlendedLight(entity, tickDelta);
         }
 
-        return this.getSimpleLight(entity, tickDelta, blockLight);
+        return this.getSimpleLight(entity, blockPos, blockLight);
     }
 
-    private int getBlockLightWrapper(T entity, float tickDelta) {
+    private int getBlockLightWrapper(T entity, BlockPos blockPos) {
         this.isAdvancedLightEnabled = SodiumClientMod.options().quality.smoothLighting == SodiumGameOptions.LightingQuality.HIGH;
 
         int blockLight;
 
         try {
-            blockLight = this.getBlockLight(entity, tickDelta);
+            blockLight = this.getBlockLight(entity, blockPos);
         } finally {
             // We're just being paranoid with a finally block...
             this.isAdvancedLightEnabled = false;
@@ -68,8 +72,8 @@ public abstract class MixinEntityRenderer<T extends Entity> {
     }
 
     // [VanillaCopy] EntityRenderer#getLight(Entity, float)
-    private int getSimpleLight(T entity, float tickDelta, int blockLight) {
-        return LightmapTextureManager.pack(blockLight, entity.world.getLightLevel(LightType.SKY, new BlockPos(entity.getCameraPosVec(tickDelta))));
+    private int getSimpleLight(T entity, BlockPos blockPos, int blockLight) {
+        return LightmapTextureManager.pack(blockLight, this.method_27950(entity, blockPos));
     }
 
     @Inject(method = "shouldRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Frustum;isVisible(Lnet/minecraft/util/math/Box;)Z", shift = At.Shift.AFTER), cancellable = true)
