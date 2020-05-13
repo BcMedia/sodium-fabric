@@ -82,7 +82,7 @@ public class MixinFrustum implements FrustumExtended {
      */
     @Overwrite
     public boolean isVisible(Box box) {
-        return this.fastAabbTest((float) box.x1, (float) box.y1, (float) box.z1, (float) box.x2, (float) box.y2, (float) box.z2);
+        return this.fastAabbTest((float) box.minX, (float) box.minY, (float) box.minZ, (float) box.maxX, (float) box.maxY, (float) box.maxZ);
     }
 
     @Override
