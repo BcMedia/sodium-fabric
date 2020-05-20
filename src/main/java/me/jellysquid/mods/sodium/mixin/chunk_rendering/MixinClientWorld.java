@@ -21,7 +21,7 @@ public abstract class MixinClientWorld implements ClientWorldExtended {
     private long seed;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void init(ClientPlayNetworkHandler clientPlayNetworkHandler, ClientWorld.class_5271 arg, DimensionType dimensionType, int chunkLoadDistance, Supplier<Profiler> supplier, WorldRenderer worldRenderer, boolean bl, long l, CallbackInfo ci) {
+    private void init(ClientPlayNetworkHandler clientPlayNetworkHandler, ClientWorld.Properties properties, DimensionType dimensionType, int chunkLoadDistance, Supplier<Profiler> supplier, WorldRenderer worldRenderer, boolean bl, long l, CallbackInfo ci) {
         this.seed = l;
     }
 
