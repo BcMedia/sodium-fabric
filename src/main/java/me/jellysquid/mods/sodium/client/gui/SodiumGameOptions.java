@@ -87,22 +87,6 @@ public class SodiumGameOptions {
         }
     }
 
-    public enum DefaultGraphicsQuality implements TextProvider {
-        FAST("Fast"),
-        FANCY("Fancy");
-
-        private final String name;
-
-        DefaultGraphicsQuality(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String getLocalizedName() {
-            return this.name;
-        }
-    }
-
     public enum GraphicsQuality implements TextProvider {
         DEFAULT("Default"),
         FAST("Fast"),

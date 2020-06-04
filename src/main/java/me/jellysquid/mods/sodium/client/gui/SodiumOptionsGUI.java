@@ -6,7 +6,6 @@ import me.jellysquid.mods.sodium.client.gui.options.control.Control;
 import me.jellysquid.mods.sodium.client.gui.options.control.ControlElement;
 import me.jellysquid.mods.sodium.client.gui.options.storage.OptionStorage;
 import me.jellysquid.mods.sodium.client.gui.widgets.FlatButtonWidget;
-import net.minecraft.class_5348;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -15,6 +14,7 @@ import net.minecraft.client.gui.screen.VideoOptionsScreen;
 import net.minecraft.client.util.Rect2i;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.StringRenderable;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.Validate;
@@ -184,7 +184,7 @@ public class SodiumOptionsGUI extends Screen {
         int boxWidth = Math.min(this.width - (dim.getX() + dim.getWidth() + (boxPadding * 2)), 280);
 
         Option<?> option = element.getOption();
-        List<class_5348> tooltip = Lists.newArrayList(this.textRenderer.wrapLines(new LiteralText(option.getTooltip()), boxWidth - (textPadding * 2)));
+        List<StringRenderable> tooltip = Lists.newArrayList(this.textRenderer.wrapLines(new LiteralText(option.getTooltip()), boxWidth - (textPadding * 2)));
 
         OptionImpact impact = option.getImpact();
 
@@ -198,7 +198,7 @@ public class SodiumOptionsGUI extends Screen {
         this.fillGradient(matrixStack, boxX, boxY, boxX + boxWidth, boxY + boxHeight, 0xE0000000, 0xE0000000);
 
         for (int i = 0; i < tooltip.size(); i++) {
-            class_5348 text = tooltip.get(i);
+            StringRenderable text = tooltip.get(i);
 
             if (text == null) {
                 continue;

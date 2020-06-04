@@ -41,7 +41,7 @@ public class BlockRenderPipeline {
     private final VertexColorBlender colorBlender;
 
     public BlockRenderPipeline(MinecraftClient client, LightPipeline smoothLightPipeline, LightPipeline flatLightPipeline) {
-        this.blockColors = (BlockColorsExtended) client.getBlockColorMap();
+        this.blockColors = (BlockColorsExtended) client.getBlockColors();
         this.smoothLightPipeline = smoothLightPipeline;
         this.flatLightPipeline = flatLightPipeline;
 
