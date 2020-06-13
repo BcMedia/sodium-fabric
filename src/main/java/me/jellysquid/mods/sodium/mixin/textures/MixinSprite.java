@@ -88,6 +88,6 @@ public abstract class MixinSprite implements SpriteExtended {
     }
 
     private void updateInterpolatedTexture() {
-        this.interpolation.method_24128();
+        this.interpolation.apply();
     }
 }
