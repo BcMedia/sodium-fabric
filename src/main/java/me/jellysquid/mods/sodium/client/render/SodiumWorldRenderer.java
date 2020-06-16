@@ -26,6 +26,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.MatrixStack.Entry;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.*;
@@ -296,7 +297,8 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
                 int stage = breakingInfos.last().getStage();
 
                 if (stage >= 0) {
-                    VertexConsumer transformer = new TransformingVertexConsumer(bufferBuilders.getEffectVertexConsumers().getBuffer(ModelLoader.BLOCK_DESTRUCTION_RENDER_LAYERS.get(stage)), matrices.peek());
+                    MatrixStack.Entry entry = matrices.peek();
+                    VertexConsumer transformer = new TransformingVertexConsumer(bufferBuilders.getEffectVertexConsumers().getBuffer(ModelLoader.BLOCK_DESTRUCTION_RENDER_LAYERS.get(stage)), entry.getModel(), entry.getNormal());
                     consumer = (layer) -> layer.hasCrumbling() ? VertexConsumers.dual(transformer, immediate.getBuffer(layer)) : immediate.getBuffer(layer);
                 }
             }

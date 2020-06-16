@@ -115,7 +115,7 @@ public class FluidRenderPipeline {
             return false;
         }
 
-        boolean lava = fluidState.matches(FluidTags.LAVA);
+        boolean lava = fluidState.isIn(FluidTags.LAVA);
         Sprite[] sprites = lava ? this.lavaSprites : this.waterSprites;
         int color = lava ? 0xFFFFFF : BiomeColors.getWaterColor(world, pos);
 
